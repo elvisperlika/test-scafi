@@ -1,14 +1,16 @@
+package experiments
 // Method #2: Define a custom incarnation and import stuff from it
 object MyIncarnation
     extends it.unibo.scafi.incarnations.BasicAbstractIncarnation
 import MyIncarnation._
+import it.unibo.scafi.simulation.frontend.{Launcher, Settings}
 
 // An "aggregate program" can be seen as a function from a Context to an Export
 // The Context is the input for a local computation: includes state
 //  from previous computations, sensor data, and exports from neighbours.
 // The export is a tree-like data structure that contains all the information needed
 //  for coordinating with neighbours. It also contains the output of the computation.
-object MyAggregateProgram extends AggregateProgram with StandardSensorNames {
+class MyAggregateProgram extends AggregateProgram with StandardSensorNames {
   // Main program expression driving the ensemble
   // This is run in a loop for each agent
   // According to this expression, coordination messages are automatically generated
@@ -32,15 +34,14 @@ object MyAggregateProgram extends AggregateProgram with StandardSensorNames {
     }
 
   // A custom local sensor
-  def isSource = sense[Boolean]("source")
+  def isSource = sense[Boolean]("sens1")
   // A custom "neighbouring sensor"
   def nbrRange = nbrvar[Double](NBR_RANGE)
 }
 
-import it.unibo.scafi.simulation.gui.{Launcher, Settings}
-
+import it.unibo.scafi.simulation.frontend.{Launcher, Settings}
 object SimulationRunner extends Launcher {
-  Settings.Sim_ProgramClass = "scala.DemoSequenceLauncher"
-  Settings.ShowConfigPanel = true
+  Settings.Sim_ProgramClass = "experiments.MyAggregateProgram"
+  Settings.ShowConfigPanel = false
   launch()
 }

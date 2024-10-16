@@ -8,5 +8,5 @@ ThisBuild / scalaVersion := "2.13.12"
 lazy val root = (project in file("."))
   .settings(
     name := "test-scafi",
-    libraryDependencies ++= Seq(scafi_core)
+    libraryDependencies ++= Seq(scafi_core, scafi_simulator_gui)
   )
